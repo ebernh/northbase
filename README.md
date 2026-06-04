@@ -19,6 +19,44 @@ The iOS app stores notes as plain text files in a Supabase `files` table, scoped
 
 ---
 
+## Evaluation & Evidence
+
+To validate the concept and surface limitations, the project was shared with approximately 6 friends and colleagues for informal feedback sessions. Participants were shown a live demo of the bidirectional AI loop (talking to Claude Desktop, watching notes appear on the iPhone in real time) and asked for honest reactions.
+
+### What they said
+
+**"I don't know if I'd actually use this"**
+The most common response. The core insight: the AI-native angle is compelling as a demo, but day-to-day note-taking habits are sticky. Users already have established tools (Apple Notes, Notion, Obsidian) and switching cost is high without a clear killer feature. This feedback directly shaped the roadmap — the most promising direction is making the AI integration feel *essential* rather than optional (e.g. persistent memory, proactive summaries) rather than adding more note-taking features.
+
+**"It's a little too simple — you should add todo lists/other structured things"**
+Several users wanted structured task management, not just freeform notes. This led to a working Docket prototype (a todo list variant of the app with its own Supabase table and MCP tools) which was built and is preserved on the `docket` branch. The feedback confirmed that unstructured files alone aren't enough for daily utility.
+
+**"Great product — can you add a web version?"**
+Repeated ask for a web client alongside the iOS app, since most people switch between devices. The current architecture (Supabase backend, MCP server already running on desktop) is well-suited for a web frontend — this is the clearest next build.
+
+### Known limitations surfaced through use
+
+- No conflict resolution — if two clients write simultaneously, last write wins
+- No versioning or undo — Claude can overwrite a file with no recovery path
+- No full-text search across note content
+- iOS only — no web or Android client
+- Single-user — no file sharing or collaboration
+
+---
+
+## AI Usage Disclosure
+
+This project was built with significant assistance from [Claude Code](https://claude.ai/code) (Anthropic). AI assistance was used for:
+
+- SwiftUI view architecture and Liquid Glass API adoption
+- Supabase integration in both Swift and Node.js
+- MCP server design and tool implementation
+- Debugging, refactoring, and code review throughout development
+
+All AI-generated code was reviewed, tested, and integrated by the author. The overall system design, product decisions, and Supabase schema were authored by the developer.
+
+---
+
 ## Setup
 
 ### Prerequisites
@@ -115,47 +153,6 @@ Restart Claude Desktop. You will then have access to these tools in any Claude c
 | `northbase_session_status` | Show session expiry details |
 
 **Example:** Ask your agent to "write a summary of our conversation to notes/summary.md" — it will call `northbase_put` and the file appears in the iOS app.
-
----
-
-## Evaluation & Evidence
-
-To validate the concept and surface limitations, the project was shared with approximately 6 friends and colleagues for informal feedback sessions. Participants were shown a live demo of the bidirectional AI loop (talking to Claude Desktop, watching notes appear on the iPhone in real time) and asked for honest reactions.
-
-### What they said
-
-**"I don't know if I'd actually use this"**
-The most common response. The core insight: the AI-native angle is compelling as a demo, but day-to-day note-taking habits are sticky. Users already have established tools (Apple Notes, Notion, Obsidian) and switching cost is high without a clear killer feature. This feedback directly shaped the roadmap — the most promising direction is making the AI integration feel *essential* rather than optional (e.g. persistent memory, proactive summaries) rather than adding more note-taking features.
-
-**"It's a little too simple — you should add todo lists"**
-Several users wanted structured task management, not just freeform notes. This led to a working Docket prototype (a todo list variant of the app with its own Supabase table and MCP tools) which was built and is preserved on the `docket` branch. The feedback confirmed that unstructured files alone aren't enough for daily utility.
-
-**"Great product — can you add a web version?"**
-Repeated ask for a web client alongside the iOS app, since most people switch between devices. The current architecture (Supabase backend, MCP server already running on desktop) is well-suited for a web frontend — this is the clearest next build.
-
-**"The refresh is manual"**
-Users noticed that notes written by Claude don't appear until you pull down to refresh. This is a real limitation: the app currently polls on foreground and on pull-to-refresh rather than using Supabase Realtime. A Realtime subscription would push changes instantly the moment Claude writes, with no user action required. This is the highest-priority technical improvement identified through testing.
-
-### Known limitations surfaced through use
-
-- No conflict resolution — if two clients write simultaneously, last write wins
-- No versioning or undo — Claude can overwrite a file with no recovery path
-- No full-text search across note content
-- iOS only — no web or Android client
-- Single-user — no file sharing or collaboration
-
----
-
-## AI Usage Disclosure
-
-This project was built with significant assistance from [Claude Code](https://claude.ai/code) (Anthropic). AI assistance was used for:
-
-- SwiftUI view architecture and Liquid Glass API adoption
-- Supabase integration in both Swift and Node.js
-- MCP server design and tool implementation
-- Debugging, refactoring, and code review throughout development
-
-All AI-generated code was reviewed, tested, and integrated by the author. The overall system design, product decisions, and Supabase schema were authored by the developer.
 
 ---
 
