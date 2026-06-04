@@ -4,7 +4,7 @@ A personal notes and file management system with an AI-native interface. Northba
 
 ## Origin
 
-This project started out of frustration. I was working heavily with Claude and other AI agents on my laptop and found myself constantly context-switching — the agents could read and write files on my machine, but there was no way to see any of that on my phone. Notes, summaries, things the AI had written for me were all stuck on the desktop. I wanted a live view on my iPhone of everything the agent was doing, and I wanted to be able to pull it up anywhere. So I built Northbase: a lightweight backend that both my phone and any AI agent can talk to, with the same auth, in real time.
+This project started out of frustration. I was working with Openclaw and really wanted to see the file it was working on through by phone, but had no way of doing so. Notes, summaries, things the AI had written for me were all stuck on the desktop. I wanted a live view on my iPhone of everything the agent was doing, and I wanted to be able to pull it up anywhere. So I built Northbase: a lightweight backend that both my phone and any AI agent can talk to, with the same auth, in real time.
 
 ## Project Overview
 
