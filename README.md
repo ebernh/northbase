@@ -1,6 +1,10 @@
 # Northbase
 
-A personal notes and file management system with an AI-native interface. Northbase is an iOS app (SwiftUI, iOS 26) backed by Supabase, paired with an MCP server that lets Claude read and write your notes directly.
+A personal notes and file management system with an AI-native interface. Northbase is an iOS app (SwiftUI, iOS 26) backed by Supabase, paired with an MCP server that lets any MCP-compatible AI agent read and write your notes directly.
+
+## Origin
+
+This project started out of frustration. I was working heavily with Claude and other AI agents on my laptop and found myself constantly context-switching — the agents could read and write files on my machine, but there was no way to see any of that on my phone. Notes, summaries, things the AI had written for me were all stuck on the desktop. I wanted a live view on my iPhone of everything the agent was doing, and I wanted to be able to pull it up anywhere. So I built Northbase: a lightweight backend that both my phone and any AI agent can talk to, with the same auth, in real time.
 
 ## Project Overview
 
@@ -9,9 +13,9 @@ Northbase has two components that live in this repo:
 | Directory | What it is |
 |-----------|------------|
 | `ios/` | SwiftUI iPhone app — sign in, browse folders, read and edit Markdown notes with a Liquid Glass UI |
-| `mcp/` | Node.js MCP server — exposes file and todo operations as tools so Claude can read and write your notes in real time |
+| `mcp/` | Node.js MCP server — exposes file operations as MCP tools so any AI agent can read and write your notes in real time |
 
-The iOS app stores notes as plain text files in a Supabase `files` table, scoped to the authenticated user via Row Level Security. The MCP server authenticates as the same user and talks to the same table, so notes written by Claude appear in the app instantly.
+The iOS app stores notes as plain text files in a Supabase `files` table, scoped to the authenticated user via Row Level Security. The MCP server authenticates as the same user and talks to the same table, so notes written by any agent appear in the app instantly. Because it implements the open MCP standard, it works with Claude, Cursor, Windsurf, or any other MCP-compatible tool — not just one AI.
 
 ---
 
@@ -82,7 +86,7 @@ Your session is saved to `~/.northbase/session.json` and refreshed automatically
 2. Confirm your email if prompted
 3. Browse your files and folders from the main list
 4. Tap any file to open the editor; tap the compose button to create a new one
-5. Pull down to refresh — changes made via Claude appear immediately
+5. Pull down to refresh — changes made by any connected agent appear immediately
 
 ### MCP server with Claude Desktop
 
@@ -110,7 +114,7 @@ Restart Claude Desktop. You will then have access to these tools in any Claude c
 | `northbase_whoami` | Show the authenticated user |
 | `northbase_session_status` | Show session expiry details |
 
-**Example:** Ask Claude to "write a summary of our conversation to notes/summary.md" — it will call `northbase_put` and the file appears in the iOS app.
+**Example:** Ask your agent to "write a summary of our conversation to notes/summary.md" — it will call `northbase_put` and the file appears in the iOS app.
 
 ---
 
